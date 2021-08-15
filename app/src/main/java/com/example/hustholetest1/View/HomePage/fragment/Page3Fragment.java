@@ -1,6 +1,8 @@
 package com.example.hustholetest1.View.HomePage.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,6 +23,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hustholetest1.Model.StandardRefreshHeader;
 import com.example.hustholetest1.R;
+import com.example.hustholetest1.View.HomePage.Activity.CommentActivity;
+import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 
@@ -29,13 +33,13 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.String;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+
 import static com.example.hustholetest1.View.HomePage.fragment.ParseNotificationData.parseJson;
 
 public class Page3Fragment extends Fragment {
@@ -55,6 +59,7 @@ public class Page3Fragment extends Fragment {
     private Boolean hasInit = false;
 
     public String url = "http://hustholetest.pivotstudio.cn/api/notices/";
+    private String token;
     public static Page3Fragment newInstance() {
         Page3Fragment fragment = new Page3Fragment();
         return fragment;
@@ -64,7 +69,7 @@ public class Page3Fragment extends Fragment {
         View rootView = inflater.inflate(R.layout.page3fragment, container, false);
         RefreshLayout refreshLayout = rootView.findViewById(R.id.refreshLayout);
         refreshLayout.setRefreshHeader(new StandardRefreshHeader(getActivity()));
-        //refreshLayout.setRefreshFooter(new ClassicsFooter(getActivity()));
+        refreshLayout.setRefreshFooter(new ClassicsFooter(getActivity()));
 
         refreshLayout.setEnableLoadMore(true);
         refreshLayout.setEnableRefresh(true);
@@ -73,21 +78,30 @@ public class Page3Fragment extends Fragment {
 
         refreshLayout.setOnRefreshListener(refreshlayout -> {
             refreshlayout.finishRefresh(4000/*,false*/);//传入false表示刷新失败
-
         });
-        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(@NotNull RefreshLayout refreshlayout) {
-                if(!isAll) {
-                    getStringByOkhttp(url + "?" + "start_id=" + start_id + "&" +
-                            "list_size=" + list_size);
-                    //refreshlayout.finishLoadMore();
-                }
-                else{
-                    refreshlayout.finishLoadMoreWithNoMoreData();
-                }
-                refreshlayout.finishLoadMore(4000/*,false*/);//传入false表示加载失败
+        refreshLayout.setOnLoadMoreListener(refreshlayout -> {
+            if(!isAll) {
+                getStringByOkhttp(url + "?" + "start_id=" + start_id + "&" +
+                        "list_size=" + list_size);
             }
+            else{
+                refreshlayout.finishLoadMoreWithNoMoreData();
+            }
+            /*new Thread(){
+                @Override
+                public void run() {
+                    super.run();
+                    try {
+                        Thread.sleep(5000);
+                        Log.d("T", "run: sleep");
+                        refreshlayout.finishLoadMore(4000*//*,false*//*);//传入false表示加载失败
+                        Log.d("T", "onLoadMore: i am finishloadmore");
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.start();*/
+            refreshlayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
         });
 
         constraintLayout = rootView.findViewById(R.id.constraintLayout);
@@ -116,7 +130,8 @@ public class Page3Fragment extends Fragment {
                 @Override
                 public void onClick(int position) {
                     if(position>0){
-                        Toast.makeText(getActivity(), "click " + position, Toast.LENGTH_SHORT).show();
+                        startHoleActivity(position);
+                        //Toast.makeText(getActivity(), "click " + position, Toast.LENGTH_SHORT).show();
                     }
                     else {
                         Intent intent = new Intent(getActivity(),SystemNotification.class);
@@ -140,6 +155,14 @@ public class Page3Fragment extends Fragment {
         return rootView;
     }
 
+    public void startHoleActivity(int mPosition){
+        String data_hole_id = myNotificationList.get(mPosition-1).getHole_id();//position-1是因为SystemNotification为第一个item
+        String[] data = null;
+        Intent intent= CommentActivity.newIntent(getActivity(),data);
+        intent.putExtra("data_hole_id",data_hole_id);
+        Log.d(TAG, "startActivity: get data_hole_id = "+data_hole_id);
+        startActivity(intent);
+    }
 
     //弃
     /*private void loadData(final String url){
@@ -206,7 +229,8 @@ public class Page3Fragment extends Fragment {
                             @Override
                             public void onClick(int position) {
                                 if(position>0){
-                                    Toast.makeText(getActivity(), "click " + position, Toast.LENGTH_SHORT).show();
+                                    startHoleActivity(position);
+                                    //Toast.makeText(getActivity(), "click " + position, Toast.LENGTH_SHORT).show();
                                 }
                                 else {
                                     Intent intent = new Intent(getActivity(),SystemNotification.class);
@@ -241,12 +265,24 @@ public class Page3Fragment extends Fragment {
                     notificationRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity() , LinearLayoutManager.VERTICAL,false));
                     notificationRecyclerView.setItemAnimator(new DefaultItemAnimator());
                     notificationRecyclerView.setAdapter(adapter);*/
-                    adapter.notifyDataSetChanged();
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            /**
+                             *要执行的操作
+                             */
+                            adapter.notifyDataSetChanged();
+                        }
+                    }, 800);//3秒后执行Runnable中的run方法
+
+                    Log.d(TAG, "handleMessage: case2");
                     adapter.setOnItemClickListener(new NotificationAdapter.OnItemClickListener() {
                         @Override
                         public void onClick(int position) {
                             if(position>0){
-                                Toast.makeText(getActivity(), "click " + position, Toast.LENGTH_SHORT).show();
+                                startHoleActivity(position);
+                                //Toast.makeText(getActivity(), "click " + position, Toast.LENGTH_SHORT).show();
                             }
                             else {
                                 Intent intent = new Intent(getActivity(),SystemNotification.class);
@@ -266,6 +302,7 @@ public class Page3Fragment extends Fragment {
                         notificationRecyclerView.setItemAnimator(new DefaultItemAnimator());
                         notificationRecyclerView.setAdapter(adapter);*/
                         adapter.notifyDataSetChanged();
+                        Log.d(TAG, "handleMessage: case3");
                     }
                     else {
                         imageView3.setVisibility(View.VISIBLE);
@@ -282,10 +319,17 @@ public class Page3Fragment extends Fragment {
     public void getStringByOkhttp(String path){
         OkHttpClient client = new OkHttpClient();
         Message message = Message.obtain();
-        Request request = new Request.Builder().get().addHeader("Authorization","Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp" +
+
+
+        SharedPreferences editor = getContext().getSharedPreferences("Depository", Context.MODE_PRIVATE);//
+        token = editor.getString("token", "");
+        Log.d("bala", "getStringByOkhttp: token "+token);
+
+        Request request = new Request.Builder().addHeader("Authorization","Bearer "+token).get().url(path).build();
+        /* addHeader("Authorization","Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp" +
                 "XVCJ9.eyJlbWFpbCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwZmM2NGNlZTM5ZTA1ZGJjNWI2ODViNDM2OWMyNTR" +
                 "iNDg5OTBkZmU1ZmQ5YTciLCJyb2xlIjoidXNlciIsInRpbWVTdGFtcCI6MTYyNjQ4OTE2Mn0.L_L0AFqPFEwoiQJHicJi3P4vy9aj_h" +
-                "x8E8aq0OkC74s").url(path).build();
+                "x8E8aq0OkC74s"). */
         Log.d(TAG, "getStringByOkhttp: request ");
         try {
             Call call = client.newCall(request);
@@ -337,7 +381,7 @@ public class Page3Fragment extends Fragment {
             e.printStackTrace();
             Log.d(TAG, "getStringByOkhttp: e.toString() "+ e.toString());
         }
-        Log.d(TAG, "getStringByOkhttp: getResponseData: null");
+        Log.d(TAG, "getStringByOkhttp: getResponseData: null ");
     }
 }
 

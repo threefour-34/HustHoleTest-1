@@ -1,10 +1,5 @@
 package com.example.hustholetest1.View.HomePage.fragment;
 
-import android.view.View;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 public class NotificationBean {
     private String reply_local_id;
     private String type;

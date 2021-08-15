@@ -1,16 +1,7 @@
 package com.example.hustholetest1.View.HomePage.fragment;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Paint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,6 +10,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hustholetest1.R;
 
@@ -33,7 +30,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import static com.example.hustholetest1.View.HomePage.fragment.Page3Fragment.removeCharAt;
-import static com.example.hustholetest1.View.HomePage.fragment.ParseNotificationData.parseJson;
 import static com.example.hustholetest1.View.HomePage.fragment.ParseNotificationData.parseSysJson;
 
 public class SystemNotification extends AppCompatActivity {
@@ -48,6 +44,7 @@ public class SystemNotification extends AppCompatActivity {
     private ImageView backView;
     //private MyItemDecoration myItemDecoration = new MyItemDecoration();
 
+    private String token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,7 +124,7 @@ public class SystemNotification extends AppCompatActivity {
                     adapter.setOnItemClickListener(new SystemNotificationAdapter.OnItemClickListener() {
                         @Override
                         public void onClick(int position) {
-                            Toast.makeText(SystemNotification.this, "click " + position, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SystemNotification.this, "click " + position, Toast.LENGTH_SHORT)/*.show()*/;
                         }
                     });
                     break;
@@ -140,10 +137,11 @@ public class SystemNotification extends AppCompatActivity {
     public void getStringByOkhttp(String path) {
         OkHttpClient client = new OkHttpClient();
         Message message = Message.obtain();
-        Request request = new Request.Builder().get().addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp" +
-                "XVCJ9.eyJlbWFpbCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwZmM2NGNlZTM5ZTA1ZGJjNWI2ODViNDM2OWMyNTR" +
-                "iNDg5OTBkZmU1ZmQ5YTciLCJyb2xlIjoidXNlciIsInRpbWVTdGFtcCI6MTYyNjQ4OTE2Mn0.L_L0AFqPFEwoiQJHicJi3P4vy9aj_h" +
-                "x8E8aq0OkC74s").url(path).build();
+
+        SharedPreferences editor = this.getSharedPreferences("Depository", Context.MODE_PRIVATE);//
+        token = editor.getString("token", "");
+        Log.d("bala", "getStringByOkhttp: token "+token);
+        Request request = new Request.Builder().get().addHeader("Authorization", "Bearer "+token).url(path).build();
 
         Log.d(TAG, "getStringByOkhttp: request");
         try {

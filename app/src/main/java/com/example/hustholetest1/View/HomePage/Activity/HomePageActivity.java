@@ -15,11 +15,14 @@ import android.text.method.PasswordTransformationMethod;
 import android.text.method.ScrollingMovementMethod;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -44,9 +47,11 @@ import com.example.hustholetest1.View.RegisterAndLogin.Activity.Login2Activity;
 import com.example.hustholetest1.View.RegisterAndLogin.Activity.LoginActivity;
 import com.example.hustholetest1.View.RegisterAndLogin.Activity.RegisterActivity;
 import com.githang.statusbar.StatusBarCompat;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class HomePageActivity extends AppCompatActivity {
     private BaseViewPager mViewPager;
@@ -58,6 +63,7 @@ public class HomePageActivity extends AppCompatActivity {
     private ImageView imageView1,imageView2,imageView3,imageView4;
     private ConstraintLayout constraint1,constraint2,constraint3,constraint4;
     private TextView textView0,textView1,textView2,textView3,textView4;
+    private FloatingActionButton addhole;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +96,19 @@ public class HomePageActivity extends AppCompatActivity {
         textView2=(TextView)findViewById(R.id.textView23);
         textView3=(TextView)findViewById(R.id.textView24);
         textView4=(TextView)findViewById(R.id.textView25);
+        addhole=(FloatingActionButton)findViewById(R.id.imageView0);
+        addhole.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                //关闭掉对话框,拿到对话框的对象
+              Intent intent=PublishHoleActivity.newIntent(HomePageActivity.this,"1");
+              startActivity(intent);
+            }
+        });
+
+
+
         a[0]=R.id.imageView66;
         a[1]=R.id.imageView66;
         /*Drawable drawableradiobutton1 = getResources().getDrawable(R.drawable.bottombar_button2);
@@ -129,6 +148,7 @@ public class HomePageActivity extends AppCompatActivity {
                 " <small><font color=\"#666666\">匿名社区的良好环境需要你我共同维护~感谢你的支持！</font></small><br><br>"+
                 "<small><font color=\"#00000000\">祝你在1037树洞玩得愉快。</font></small><br>");
         mEt_second_password.setText(Html.fromHtml(aa));
+
         //mEt_second_password.setMaxHeight(400);
         Button mBtn_ok = (Button) mView.findViewById(R.id.button);
 
