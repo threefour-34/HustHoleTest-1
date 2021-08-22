@@ -1,4 +1,4 @@
-package com.example.hustholetest1.Model;
+package com.example.hustholetest1.model;
 
 import android.text.Editable;
 import android.text.SpannableString;

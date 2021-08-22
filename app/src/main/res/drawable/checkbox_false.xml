@@ -2,5 +2,7 @@
 <!--分支-->
 <!--显示密码-->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@mipmap/vector2"/>
+    <item android:drawable="@mipmap/vector2"
+        />
+
 </selector>

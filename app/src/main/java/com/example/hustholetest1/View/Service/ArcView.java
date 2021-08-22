@@ -1,4 +1,4 @@
-package com.example.hustholetest1.View.Service;
+package com.example.hustholetest1.view.service;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -6,13 +6,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 
 import com.example.hustholetest1.R;
+
 
 public class ArcView extends View {//已经弃用，最开始准备用来画连续弧
     private int mWidth;
