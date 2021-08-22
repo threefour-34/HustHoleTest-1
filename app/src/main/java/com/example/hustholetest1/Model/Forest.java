@@ -1,10 +1,8 @@
-package com.example.hustholetest1.Model;
-
-import android.util.Log;
+package com.example.hustholetest1.model;
 
 import org.json.JSONArray;
 
-import java.util.UUID;
+import java.util.ArrayList;
 
 public class Forest {//存放所有小树林的未处理数据
     static JSONArray[] forest_list=new JSONArray[6];

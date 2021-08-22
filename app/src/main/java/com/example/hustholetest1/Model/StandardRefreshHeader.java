@@ -1,4 +1,4 @@
-package com.example.hustholetest1.Model;
+package com.example.hustholetest1.model;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;

@@ -1,6 +1,5 @@
-package com.example.hustholetest1.View.RetrievePassword.Activity;
+package com.example.hustholetest1.view.retrievepassword.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -13,12 +12,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hustholetest1.Model.EditTextReaction;
+import com.example.hustholetest1.model.EditTextReaction;
 import com.example.hustholetest1.R;
-import com.example.hustholetest1.View.RegisterAndLogin.Activity.RegisterActivity;
-import com.githang.statusbar.StatusBarCompat;
 
-import java.util.UUID;
+import com.example.hustholetest1.view.registerandlogin.activity.LoginActivity;
+import com.githang.statusbar.StatusBarCompat;
 
 
 public class ModifyPasswordActivity extends AppCompatActivity {
@@ -31,14 +29,14 @@ public class ModifyPasswordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.retrievepassword_modify);
+        setContentView(R.layout.activity_retrievepasswordmodify);
         StatusBarCompat.setStatusBarColor(this,getResources().getColor(R.color.GrayScale_100) , true);
-        editText1=(EditText)findViewById(R.id.EditText);
+        editText1=(EditText)findViewById(R.id.et_modify_email);
         editText1.setTransformationMethod(new PasswordTransformationMethod());
-        button1=(Button)findViewById(R.id.button4);
-        textView1=(TextView)findViewById(R.id.textView14);
-        imageView=(ImageView)findViewById(R.id.imageView);
-        back= (ImageView) findViewById(R.id.backView);
+        button1=(Button)findViewById(R.id.btn_modify_jumptohomescreen);
+        textView1=(TextView)findViewById(R.id.tv_modify_warn);
+        imageView=(ImageView)findViewById(R.id.iv_modify_visible);
+        back= (ImageView) findViewById(R.id.iv_titlebarwhite_back);
         textView1.setVisibility(View.INVISIBLE);
         if(getSupportActionBar()!=null){
             getSupportActionBar().hide();
@@ -50,7 +48,7 @@ public class ModifyPasswordActivity extends AppCompatActivity {
     public void onClick(View v){
         Intent intent;
         switch (v.getId()) {
-            case R.id.imageView://隐藏/显示密码
+            case R.id.iv_modify_visible://隐藏/显示密码
                 if(flag){
                     imageView.setImageResource(R.drawable.checkbox_false);
                     editText1.setTransformationMethod(new PasswordTransformationMethod());
@@ -60,16 +58,16 @@ public class ModifyPasswordActivity extends AppCompatActivity {
                 }
                 flag = !flag;
                 break;
-            case R.id.button4://重新设置完密码后进入登录界面，并且将之前的活动清除
+            case R.id.btn_modify_jumptohomescreen://重新设置完密码后进入登录界面，并且将之前的活动清除
                 if(true) {
-                    intent = new Intent(ModifyPasswordActivity.this, RegisterActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent = new Intent(ModifyPasswordActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     //清除前面所有活动
                     startActivity(intent);
                 } else{
                    //密码格式错误
                 }
                 break;
-            case R.id.backView://退回键
+            case R.id.iv_titlebarwhite_back://退回键
                 finish();
                 break;
             default:

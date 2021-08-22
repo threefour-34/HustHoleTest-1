@@ -1,4 +1,4 @@
-package com.example.hustholetest1.Model;
+package com.example.hustholetest1.model;
 
 import android.annotation.TargetApi;
 import android.content.Context;

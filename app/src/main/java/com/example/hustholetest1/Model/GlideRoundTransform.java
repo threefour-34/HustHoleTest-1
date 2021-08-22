@@ -1,13 +1,11 @@
-package com.example.hustholetest1.Model;
+package com.example.hustholetest1.model;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -15,21 +13,7 @@ import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.bumptech.glide.load.resource.bitmap.TransformationUtils;
 
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
 import java.security.MessageDigest;
-import java.util.concurrent.TimeUnit;
-
-import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
 public class GlideRoundTransform  extends BitmapTransformation {
     private static float radius = 0f;

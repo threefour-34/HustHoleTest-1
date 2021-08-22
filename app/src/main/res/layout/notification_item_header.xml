@@ -42,15 +42,18 @@
                 app:layout_constraintStart_toEndOf="@+id/imageView9" />
 
             <TextView
-                android:id="@+id/textView20"
-                android:layout_width="wrap_content"
+                android:id="@+id/latestSystemNotification"
+                android:layout_width="@dimen/dp_264"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="11dp"
                 android:layout_gravity="bottom"
-                android:text="TextView"
+                android:text=""
                 android:textColor="@color/GrayScale_50"
                 android:textSize="10sp"
+                android:ellipsize="end"
+                android:lineSpacingExtra="1sp"
+                android:maxLines="1"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView9" />
         </LinearLayout>
 </RelativeLayout>
