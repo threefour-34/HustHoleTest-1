@@ -52,8 +52,8 @@ public class MessageFragment extends Fragment {
     private NotificationAdapter adapter;
     private RecyclerView notificationRecyclerView;
     private final static String TAG = "tag";
-    private ImageView imageView3;
-    private TextView textView16;
+    private ImageView noNotificationImage;
+    private TextView thereIsNoNotification;
     private int page = 1;
     private final static int list_size = 15;
     private int start_id = 0;
@@ -141,8 +141,8 @@ public class MessageFragment extends Fragment {
             startActivity(intent);
         });
 
-        imageView3 =  rootView.findViewById(R.id.imageView3);
-        textView16 =  rootView.findViewById(R.id.textView16);
+        noNotificationImage = rootView.findViewById(R.id.no_notification_image);
+        thereIsNoNotification = rootView.findViewById(R.id.there_is_no_notification);
         constraintLayout = rootView.findViewById(R.id.constraintLayout);
         notificationRecyclerView = rootView.findViewById(R.id.notification);
         if(!hasInit){
@@ -150,8 +150,8 @@ public class MessageFragment extends Fragment {
                     "list_size="+list_size);
         }
         else if(myNotificationList!= null && hasInit){ //已经初始化直接显示,每次回到这个页面时直接显示
-            imageView3.setVisibility(View.GONE);
-            textView16.setVisibility(View.GONE);
+            noNotificationImage.setVisibility(View.GONE);
+            thereIsNoNotification.setVisibility(View.GONE);
             constraintLayout.setVisibility(View.GONE);
             adapter = new NotificationAdapter(getActivity(), myNotificationList);
             notificationRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity() , LinearLayoutManager.VERTICAL,false));
@@ -174,8 +174,8 @@ public class MessageFragment extends Fragment {
             });
         }
         else{ //数据为null
-            imageView3.setVisibility(View.VISIBLE);
-            textView16.setVisibility(View.VISIBLE);
+            noNotificationImage.setVisibility(View.VISIBLE);
+            thereIsNoNotification.setVisibility(View.VISIBLE);
             constraintLayout.setVisibility(View.VISIBLE);
         }
 
@@ -183,7 +183,7 @@ public class MessageFragment extends Fragment {
         //notificationRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
         //Log.d(TAG, "onCreateView: 6");
 
-        latestSystemNotification = rootView.findViewById(R.id.latestSystemNotification);
+        latestSystemNotification = rootView.findViewById(R.id.latest_system_notification);
         getLatestSystemNotification();
 
         return rootView;
@@ -323,8 +323,8 @@ public class MessageFragment extends Fragment {
                     myNotificationList = parseJson(Data);
                     isNotification = true;
                     if(isNotification){ //有通知就不显示
-                        imageView3.setVisibility(View.GONE);
-                        textView16.setVisibility(View.GONE);
+                        noNotificationImage.setVisibility(View.GONE);
+                        thereIsNoNotification.setVisibility(View.GONE);
                         constraintLayout.setVisibility(View.GONE);
                         Log.d(TAG, "handleMessage: size  " + myNotificationList.size());
                         adapter = new NotificationAdapter(getActivity(), myNotificationList);
@@ -351,15 +351,15 @@ public class MessageFragment extends Fragment {
                         Log.d(TAG, "handleMessage: start_id :"+start_id);
                     }
                     else {
-                        imageView3.setVisibility(View.VISIBLE);
-                        textView16.setVisibility(View.VISIBLE);
+                        noNotificationImage.setVisibility(View.VISIBLE);
+                        thereIsNoNotification.setVisibility(View.VISIBLE);
                         constraintLayout.setVisibility(View.VISIBLE);
                         Log.d(TAG, "onCreateView: visible");
                     }
                     break;
                 case 1://失败
                     constraintLayout.setVisibility(View.VISIBLE);
-                    textView16.setText("");
+                    thereIsNoNotification.setText("");
                     break;
                 case 2://不是首次请求网络
                     String Data2 = (String)msg.obj;
@@ -413,8 +413,8 @@ public class MessageFragment extends Fragment {
                         Log.d(TAG, "handleMessage: case3");
                     }
                     else {
-                        imageView3.setVisibility(View.VISIBLE);
-                        textView16.setVisibility(View.VISIBLE);
+                        noNotificationImage.setVisibility(View.VISIBLE);
+                        thereIsNoNotification.setVisibility(View.VISIBLE);
                         constraintLayout.setVisibility(View.VISIBLE);
                         Log.d(TAG, "onCreateView: visible");
                     }
